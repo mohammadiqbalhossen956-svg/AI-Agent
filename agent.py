@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Request
+import os
+import uvicorn
 
 app = FastAPI()
 
@@ -21,3 +23,7 @@ async def receive_webhook(request: Request):
         "email": email,
         "message": message
     }
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("agent:app", host="0.0.0.0", port=port)
