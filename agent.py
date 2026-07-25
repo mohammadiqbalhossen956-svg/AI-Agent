@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request # Request ইমপোর্ট করা জরুরি
+from fastapi import FastAPI, Request
 
 app = FastAPI()
 
@@ -6,9 +6,18 @@ app = FastAPI()
 def read_root():
     return {"message": "AI Agent is running"}
 
-# ডাটা রিসিভ করার জন্য নতুন রুট
 @app.post("/webhook")
-async def handle_webhook(request: Request):
-    data = await request.json() # মেক থেকে আসা ডাটা রিসিভ করা
-    print(data) # লগ-এ ডাটা দেখাবে
-    return {"status": "success", "received": data}
+async def receive_webhook(request: Request):
+    data = await request.json()
+    
+    # এখানে রিকোয়েস্টের ডেটাগুলো রিসিভ হচ্ছে
+    name = data.get("name")
+    email = data.get("email")
+    message = data.get("message")
+    
+    # রেসপন্সে আবার নাম, ইমেইল এবং মেসেজ ব্যাক পাঠানো হচ্ছে, যাতে Make.com সেটি হাবস্পটে নিতে পারে
+    return {
+        "name": name,
+        "email": email,
+        "message": message
+    }
