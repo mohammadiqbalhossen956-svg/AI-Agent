@@ -15,26 +15,22 @@ async def receive_webhook(request: Request):
     except Exception:
         data = {}
     
-    # Safely extract form fields from incoming webhook payload
-    first_name = data.get("first_name", "")
-    last_name = data.get("last_name", "")
-    email = data.get("email", "")
-    phone_number = data.get("phone_number", "")
-    date_of_birth = data.get("date_of_birth", "")
+    # Framer ফ্রমের ফিল্ড নেমগুলোর সাথে হুবহু ম্যাচ করা হলো
+    full_name = data.get("full_name", "")
+    work_email = data.get("work_email", "")
+    company_name = data.get("company_name", "")
+    budget_range = data.get("budget_range", "")
     message = data.get("message", "")
     
-    # Return structured fields to Make.com for HubSpot CRM mapping
     return {
         "status": "success",
-        "first_name": first_name,
-        "last_name": last_name,
-        "email": email,
-        "phone_number": phone_number,
-        "date_of_birth": date_of_birth,
+        "full_name": full_name,
+        "work_email": work_email,
+        "company_name": company_name,
+        "budget_range": budget_range,
         "message": message
     }
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
-    # Change "agent:app" to "main:app" if your file is named main.py
     uvicorn.run("agent:app", host="0.0.0.0", port=port)
